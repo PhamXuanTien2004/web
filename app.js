@@ -1,44 +1,32 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const appointmentsRouter = require("./models/appointments.js");
-const PORT = 3000;
-const path = require("path");
-const mongoose = require('mongoose');
+const path = require("path"); // Đảm bảo rằng bạn đã import 'path' để sử dụng cho static files
+const connectDB = require("./db"); // Import connectDB từ file db.js
+const appointmentsRouter = require("./router/appointments.js");
+const Appointment = require("./models/appointment"); // Import model Appointment
 
 const app = express();
+const PORT = 3000;
 
-app.use(express.json()); // Middleware để parse JSON
+// Kết nối MongoDB qua db.js
+connectDB();
 
-// Middleware để phục vụ static files từ thư mục "public"
-app.use(express.static(path.join(__dirname, "public")));
-
-// Kết nối MongoDB
-mongoose.connect('mongodb://localhost:27017/pxt_hospital', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-});
+// Middleware để parse JSON và phục vụ static files
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public"))); // Static files từ thư mục "public"
 
 // Routes
 app.use("/api/appointments", appointmentsRouter);
 
-// Home route
+// Home route (trả về trang HTML)
 app.get("/", (req, res) => {
-    res.send("Welcome to PXT Hospital API");
+    res.sendFile(path.join(__dirname, 'public', 'index.html')); // Chỉ định đường dẫn tệp HTML
 });
-
-const Appointment = require("./models/appointment");  // Import Model
 
 // Route để nhận dữ liệu và lưu vào MongoDB
 app.post("/models/appointments", async (req, res) => {
     try {
-        // Lấy dữ liệu từ body của request
         const { name, sex, phone_number, date_of_birth, doctor, time, date } = req.body;
-
-        // Tạo một appointment mới từ dữ liệu nhận được
         const newAppointment = new Appointment({
             name,
             sex,
@@ -49,29 +37,21 @@ app.post("/models/appointments", async (req, res) => {
             date,
         });
 
-        // Lưu appointment vào MongoDB
         await newAppointment.save();
-
-        // Trả về response khi lưu thành công
         res.status(201).send("Appointment saved successfully!");
     } catch (err) {
         res.status(500).send("Error saving appointment: " + err.message);
     }
 });
 
-fetch("/models/appointments", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify("appointment.js")  // Dữ liệu từ form
-})
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-})
-.catch(error => {
-    console.error("Error:", error);
+// Lấy danh sách lịch khám
+router.get("/", async (req, res) => {
+    try {
+        const appointments = await Appointment.find({}); // Lấy tất cả các cuộc hẹn
+        res.json(appointments);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 

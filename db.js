@@ -1,23 +1,16 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 
-const uri = "mongodb://localhost:27017"; // Thay bằng URL kết nối của bạn nếu sử dụng MongoDB Atlas
-const client = new MongoClient(uri);
-
-let db;
-
-const connectToDatabase = async () => {
+const connectDB = async () => {
     try {
-        await client.connect();
-        db = client.db("hospital_db"); // Tên database
-        console.log("Kết nối tới MongoDB thành công!");
+        await mongoose.connect('mongodb://localhost:27017/pxt_hospital', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("Connected to MongoDB");
     } catch (error) {
-        console.error("Lỗi kết nối MongoDB:", error);
+        console.error("Failed to connect to MongoDB:", error);
+        process.exit(1); // Dừng ứng dụng nếu kết nối thất bại
     }
 };
 
-const getDatabase = () => {
-    if (!db) throw new Error("Database chưa được kết nối!");
-    return db;
-};
-
-module.exports = { connectToDatabase, getDatabase };
+module.exports = connectDB;
