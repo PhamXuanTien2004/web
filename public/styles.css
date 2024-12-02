@@ -1,0 +1,26 @@
+
+/* Định dạng cho thanh navbar */
+.navbar {
+    background-color: #2168a7; /* Màu nền của thanh navbar */
+    overflow: hidden; /* Đảm bảo các phần tử bên trong không bị tràn ra ngoài */
+    display: flex; /* Sử dụng flexbox để căn giữa các mục */
+    justify-content: center; /* Căn giữa các liên kết */
+    align-items: center; /* Căn các mục theo chiều dọc */
+    padding: 10px 0; /* Khoảng cách trên và dưới thanh navbar */
+}
+
+/* Định dạng cho các liên kết */
+.navbar a {
+    color: white; /* Màu chữ của các liên kết */
+    text-align: center; /* Căn giữa văn bản */
+    padding: 14px 20px; /* Khoảng cách trong các liên kết */
+    text-decoration: none; /* Xóa gạch chân */
+    font-size: 18px; /* Kích thước chữ */
+    display: block; /* Đảm bảo mỗi liên kết chiếm toàn bộ chiều rộng */
+}
+
+/* Đổi màu khi hover lên các liên kết */
+.navbar a:hover {
+    background-color: #ddd; /* Màu nền khi di chuột vào liên kết */
+    color: black; /* Màu chữ khi hover */
+}
