@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    background-color: #171515;
 }
 
 /* Định dạng thanh điều hướng */
@@ -30,7 +30,7 @@ body {
 /* Định dạng các phần nội dung */
 div#home, div#introduction, div#book, div#contact {
     padding: 20px;
-    background-color: white;
+    background-color: rgb(241, 169, 15);
     margin: 10px auto;
     max-width: 800px;
     border-radius: 5px;

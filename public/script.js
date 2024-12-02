@@ -44,3 +44,43 @@ function saveData() {
     displayData.innerHTML = resultText;
     resultDiv.style.display = "block";
 }
+
+// Hàm để lưu dữ liệu form và gửi tới server
+function saveData() {
+    // Lấy giá trị từ các input trong form
+    const name = document.getElementById("name").value;
+    const sex = document.querySelector('input[name="sex"]:checked') ? document.querySelector('input[name="sex"]:checked').value : '';
+    const phone_number = document.getElementById("phone_number").value;
+    const date_of_birth = document.getElementById("date_of_birth").value;
+    const doctor = document.getElementById("dropdown").value;
+    const time = document.getElementById("time_book").value;
+    const date = document.getElementById("date_book").value;
+
+    // Tạo một đối tượng chứa dữ liệu từ form
+    const appointmentData = {
+        name,
+        sex,
+        phone_number,
+        date_of_birth,
+        doctor,
+        time,
+        date,
+    };
+
+    // Gửi dữ liệu tới API server qua HTTP POST
+    fetch("/api/appointments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointmentData), // Chuyển đổi đối tượng thành JSON
+    })
+    .then(response => response.json()) // Nếu server trả về JSON
+    .then(data => {
+        alert("Appointment saved successfully!"); // Thông báo lưu thành công
+    })
+    .catch(error => {
+        console.error("Error:", error); // Log lỗi nếu có
+        alert("There was an error saving the appointment.");
+    });
+}
