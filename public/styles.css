@@ -1,26 +1,71 @@
+/* Định dạng cơ bản cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
 
-/* Định dạng cho thanh navbar */
+/* Định dạng thanh điều hướng */
 .navbar {
-    background-color: #2168a7; /* Màu nền của thanh navbar */
-    overflow: hidden; /* Đảm bảo các phần tử bên trong không bị tràn ra ngoài */
-    display: flex; /* Sử dụng flexbox để căn giữa các mục */
-    justify-content: center; /* Căn giữa các liên kết */
-    align-items: center; /* Căn các mục theo chiều dọc */
-    padding: 10px 0; /* Khoảng cách trên và dưới thanh navbar */
+    background-color: #0073e6;
+    overflow: hidden;
+    padding: 10px 0;
 }
 
-/* Định dạng cho các liên kết */
 .navbar a {
-    color: white; /* Màu chữ của các liên kết */
-    text-align: center; /* Căn giữa văn bản */
-    padding: 14px 20px; /* Khoảng cách trong các liên kết */
-    text-decoration: none; /* Xóa gạch chân */
-    font-size: 18px; /* Kích thước chữ */
-    display: block; /* Đảm bảo mỗi liên kết chiếm toàn bộ chiều rộng */
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
 }
 
-/* Đổi màu khi hover lên các liên kết */
 .navbar a:hover {
-    background-color: #ddd; /* Màu nền khi di chuột vào liên kết */
-    color: black; /* Màu chữ khi hover */
+    background-color: #005bb5;
+    color: white;
+}
+
+/* Định dạng các phần nội dung */
+div#home, div#introduction, div#book, div#contact {
+    padding: 20px;
+    background-color: white;
+    margin: 10px auto;
+    max-width: 800px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Định dạng tiêu đề */
+h1, h2 {
+    color: #0073e6;
+}
+
+/* Định dạng input, select và button */
+input, select, button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #0073e6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+/* Định dạng phần hiển thị kết quả */
+#result {
+    background-color: #e6f7ff;
+    color: #005bb5;
 }

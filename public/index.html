@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PXT Hospital</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script> <!-- Chứa các hàm JavaScript -->
 </head>
 
 <body>
@@ -13,6 +14,7 @@
         <a href="#home">TRANG CHỦ</a>
         <a href="#introduction">GIỚI THIỆU</a>
         <a href="#book">ĐẶT LỊCH KHÁM</a>
+        <a href="#job">Lịch Làm Việc</a>
         <a href="#contact">LIÊN HỆ</a>
     </div>
 
@@ -20,25 +22,31 @@
         <h1>Welcome to PXT Hospital</h1>
         <p>This is the home section.</p>
     </div>
+
+
     <div id="introduction">
         <h1>About Us</h1>
         <p>Learn more about us here.</p>
     </div>
+
+
     <div id="book">
         <div class="container">
             <h2>Phiếu đăng ký lịch khám</h2>
-            <input type="text" id="name" placeholder="Họ và tên"><br>
+            <input type="text" id="name" placeholder="Họ và tên" required><br>
 
             <!-- Nút chọn (Radio buttons) -->
             <label>Giới tính:</label>
-            <input type="radio" id="boy" name="sex" value="boy">
+            <input type="radio" id="boy" name="sex" value="Nam">
             <label for="boy">Nam</label>
-            <input type="radio" id="girl" name="sex" value="girl">
+            <input type="radio" id="girl" name="sex" value="Nữ">
             <label for="girl">Nữ</label><br>
 
-            <input type="text" id="phone_number" placeholder="Số điện thoại"><br>
+            <input type="tel" id="phone_number" placeholder="Số điện thoại" pattern="\d{10}" required><br>
+            <!-- Kiểm tra số điện thoại -->
+            <input type="date" id="date_of_birth" required><br> <!-- Dùng kiểu nhập date -->
 
-            <input type="text" id="date_of_bỉth" placeholder="Ngày Tháng Năm Sinh"><br>
+
 
             <!-- Danh sách thả xuống -->
             <!-- chọn Bác sĩ khám -->
@@ -71,72 +79,41 @@
             <!-- ngày khám -->
             <label for="date_book">Chọn Lịch Muốn Khám</label>
             <br>
-            <label for="day_book">Ngày: </label>
-            <select id="day_book">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-                <option>21</option>
-                <option>22</option>
-                <option>23</option>
-                <option>24</option>
-                <option>25</option>
-                <option>26</option>
-                <option>27</option>
-                <option>28</option>
-                <option>29</option>
-                <option>30</option>
-                <option>31</option>
-            </select>
-
-
-            <!-- chọn tháng -->
-            <label for="month_book"> Tháng: </label>
-            <select id="month_book">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-            </select>
-
-            <!-- chọn năm -->
-            <label for="year_book"> Năm: </label>
-            <select id="year_book">
-                <option>2024</option>
-                <option>2025</option>
-                <option>2026</option>
-            </select>
+            <input type="date" id="date_book" required><br> <!-- Dùng kiểu nhập date -->
 
             <br>
             <button onclick="saveData()">Xác nhận lịch khám</button>
             <div class="selection" id="selection"></div>
         </div>
     </div>
+
+    <div id="result" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; display: none;">
+        <h3>Kết quả:</h3>
+        <p id="displayData"></p>
+    </div>
+
+    <div id="job">
+        <h2>Lịch Làm Việc</h2>
+        <table id="appointmentTable" border="1" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Giới Tính</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Ngày Sinh</th>
+                    <th>Bác Sĩ</th>
+                    <th>Thời Gian Khám</th>
+                    <th>Ngày Khám</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dữ liệu sẽ được thêm vào đây -->
+            </tbody>
+        </table>
+    </div>
+
+
     <div id="contact">
         <h1>Holine</h1>
         <p>0904192xxx</p>
