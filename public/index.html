@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PXT Hospital</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script> <!-- Chứa các hàm JavaScript -->
-    <script src="js/app.js" defer></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/script.js"></script> <!-- Chứa các hàm JavaScript -->
+    <script src="/js/script.js"></script>
+
 </head>
 
 <body>
@@ -41,11 +42,12 @@
             <input type="radio" id="boy" name="sex" value="Nam">
             <label for="boy">Nam</label>
             <input type="radio" id="girl" name="sex" value="Nữ">
-            <label for="girl">Nữ</label><br>
 
-            <input type="tel" id="phone_number" placeholder="Số điện thoại" pattern="\d{10}" required><br>
+            <label for="girl">Nữ</label><br>
             <!-- Kiểm tra số điện thoại -->
-            <input type="date" id="date_of_birth" required><br> <!-- Dùng kiểu nhập date -->
+            <input type="tel" id="phone_number" placeholder="Số điện thoại" pattern="\d{10}" required><br>
+            <!-- Dùng kiểu nhập date -->
+            <input type="date" id="date_of_birth" required><br>
 
 
 
@@ -59,6 +61,7 @@
                 <option>Nguyễn Tuấn Kiệt</option>
             </select>
             <br>
+
             <!-- lịch khám bệnh -->
             <!-- giờ -->
             <label for="time_book">Chọn Thời Gian Muốn Khám</label>
@@ -80,7 +83,8 @@
             <!-- ngày khám -->
             <label for="date_book">Chọn Lịch Muốn Khám</label>
             <br>
-            <input type="date" id="date_book" required><br> <!-- Dùng kiểu nhập date -->
+            <!-- Dùng kiểu nhập date -->
+            <input type="date" id="date_book" required><br>
 
             <br>
             <button onclick="saveData()">Xác nhận lịch khám</button>
@@ -98,7 +102,7 @@
         <table id="appointmentTable" border="1" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th>STT</th>
+
                     <th>Họ và Tên</th>
                     <th>Giới Tính</th>
                     <th>Số Điện Thoại</th>
@@ -106,6 +110,7 @@
                     <th>Bác Sĩ</th>
                     <th>Thời Gian Khám</th>
                     <th>Ngày Khám</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,7 +125,6 @@
         <p>0904192xxx</p>
     </div>
 
-    <script src="public/script.js"></script>
 </body>
 
 </html>
