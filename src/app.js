@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const connectDB = require("./db"); // Import connectDB từ file db.js
+const connectDB = require("../db.js"); // Import connectDB từ file db.js
 const appointmentsRouter = require("./router/appointments.js");
-const Appointment = require("./models/appointment"); // Import model Appointment
+const Appointment = require("./models/appointment.js"); // Import model Appointment
 const app = express();
 const PORT = 3000;
 

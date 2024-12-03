@@ -4,35 +4,31 @@ async function fetchAppointments() {
         const response = await fetch('/api/appointments');
         const appointments = await response.json();
 
-        // Render dữ liệu vào bảng
+        // Hiển thị dữ liệu ngay lập tức khi nhận được
         renderAppointments(appointments);
     } catch (error) {
         console.error('Error fetching appointments:', error);
     }
 }
 
-// Hàm xóa lịch hẹn theo ID
-function deleteAppointment(appointmentId) {
-    fetch(`/api/appointments/${appointmentId}`, {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to delete appointment");
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message); // Hiển thị thông báo xóa thành công
-            if (data.message === "Lịch hẹn đã bị xóa!") {
-                // Gọi lại fetchAppointments để cập nhật giao diện
-                fetchAppointments();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Không thể xóa lịch hẹn!');
+// Hàm để xóa một lịch khám theo ID
+async function deleteAppointment(appointmentId) {
+    try {
+        const response = await fetch(`/api/appointments/${appointmentId}`, {
+            method: 'DELETE',
         });
+
+        const result = await response.json();
+        alert(result.message); // Hiển thị thông báo từ server
+
+        if (response.ok) {
+            // Đồng bộ lại bảng ngay sau khi xóa thành công
+            fetchAppointments();
+        }
+    } catch (error) {
+        console.error('Error deleting appointment:', error);
+        alert('Không thể xóa lịch hẹn!');
+    }
 }
 
 // Hàm hiển thị danh sách lịch hẹn vào bảng
