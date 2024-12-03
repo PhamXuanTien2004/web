@@ -6,9 +6,9 @@
 
 ## Thông tin sinh viên
 
-- **Họ và tên**: ****\_****
-- **MSSV**: ****\_****
-- **Lớp**: ****\_****
+- **Họ và tên**: **PHAM XUAN TIEN**
+- **MSSV**: **2221050418**
+- **Lớp**: **DCCTCT67_07B**
 
 ## Giới thiệu
 
