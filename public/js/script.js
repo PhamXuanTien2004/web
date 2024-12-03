@@ -1,58 +1,83 @@
-// Hàm để lấy dữ liệu lịch khám và hiển thị trong bảng
-async function fetchAppointments() {
-    try {
-        const response = await fetch('/api/appointments');
-        const appointments = await response.json();
+// Biến toàn cục lưu trữ tham chiếu đến các phần tử DOM
+const nameInput = document.getElementById("name");
+const phoneInput = document.getElementById("phone_number");
+const birthDateInput = document.getElementById("date_of_birth");
+const doctorDropdown = document.getElementById("dropdown");
+const timeInput = document.getElementById("time_book");
+const dateInput = document.getElementById("date_book");
+const resultDiv = document.getElementById("result");
+const displayData = document.getElementById("displayData");
 
-        // Hiển thị dữ liệu ngay lập tức khi nhận được
-        renderAppointments(appointments);
-    } catch (error) {
-        console.error('Error fetching appointments:', error);
+// Hàm hiển thị dữ liệu người dùng nhập
+function displayFormData() {
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const birthDate = birthDateInput.value;
+    const doctor = doctorDropdown.value;
+    const time = timeInput.value;
+    const dateBook = dateInput.value;
+    const gender = document.querySelector('input[name="sex"]:checked')?.value || "Không xác định";
+
+    // Kiểm tra nếu thiếu thông tin
+    if (!name || !phone || !birthDate || !doctor || !time || !dateBook) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
     }
+
+    // Hiển thị thông tin
+    displayData.innerHTML = `
+        <strong>Họ và tên:</strong> ${name}<br>
+        <strong>Giới tính:</strong> ${gender}<br>
+        <strong>Số điện thoại:</strong> ${phone}<br>
+        <strong>Ngày tháng năm sinh:</strong> ${birthDate}<br>
+        <strong>Bác sĩ đã chọn:</strong> ${doctor}<br>
+        <strong>Thời gian khám:</strong> ${time}<br>
+        <strong>Lịch khám:</strong> ${dateBook}
+    `;
+    resultDiv.style.display = "block";
 }
 
-// Hàm để xóa một lịch khám theo ID
-async function deleteAppointment(appointmentId) {
-    try {
-        const response = await fetch(`/api/appointments/${appointmentId}`, {
-            method: 'DELETE',
+// Hàm gửi dữ liệu tới server
+function saveAppointment() {
+    const name = nameInput.value.trim();
+    const sex = document.querySelector('input[name="sex"]:checked')?.value || "Không xác định";
+    const phone_number = phoneInput.value.trim();
+    const date_of_birth = birthDateInput.value;
+    const doctor = doctorDropdown.value;
+    const time = timeInput.value;
+    const date = dateInput.value;
+
+    // Kiểm tra nếu thiếu thông tin
+    if (!name || !phone_number || !date_of_birth || !doctor || !time || !date) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    const appointmentData = {
+        name,
+        sex,
+        phone_number,
+        date_of_birth,
+        doctor,
+        time,
+        date,
+    };
+
+    // Gửi dữ liệu tới API server
+    fetch("/api/appointments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointmentData),
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert("Lưu lịch hẹn thành công!"); // Thông báo lưu thành công
+            displayFormData(); // Cập nhật giao diện hiển thị
+        })
+        .catch(error => {
+            console.error("Lỗi:", error);
+            alert("Không thể lưu lịch hẹn. Vui lòng thử lại.");
         });
-
-        const result = await response.json();
-        alert(result.message); // Hiển thị thông báo từ server
-
-        if (response.ok) {
-            // Đồng bộ lại bảng ngay sau khi xóa thành công
-            fetchAppointments();
-        }
-    } catch (error) {
-        console.error('Error deleting appointment:', error);
-        alert('Không thể xóa lịch hẹn!');
-    }
 }
-
-// Hàm hiển thị danh sách lịch hẹn vào bảng
-function renderAppointments(appointments) {
-    const tbody = document.querySelector("#appointmentTable tbody");
-    tbody.innerHTML = ''; // Xóa dữ liệu cũ
-
-    appointments.forEach((appointment, index) => {
-        const tr = document.createElement("tr");
-        tr.id = `appointment-${appointment._id}`; // Gán ID duy nhất cho dòng
-
-        tr.innerHTML = `
-            <td>${appointment.name}</td>
-            <td>${appointment.sex}</td>
-            <td>${appointment.phone_number}</td>
-            <td>${new Date(appointment.date_of_birth).toLocaleDateString()}</td>
-            <td>${appointment.doctor}</td>
-            <td>${appointment.time}</td>
-            <td>${new Date(appointment.date).toLocaleDateString()}</td>
-            <td><button onclick="deleteAppointment('${appointment._id}')">XÓA</button></td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// Gọi hàm để lấy dữ liệu khi trang được tải
-window.onload = fetchAppointments;
