@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PXT Hospital</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="/script.js"></script> <!-- Chứa các hàm JavaScript -->
-    <script src="/js/script.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
 
 </head>
 
@@ -33,98 +32,92 @@
 
 
     <div id="book">
-        <div class="container">
+        <section>
             <h2>Phiếu đăng ký lịch khám</h2>
-            <input type="text" id="name" placeholder="Họ và tên" required><br>
 
-            <!-- Nút chọn (Radio buttons) -->
-            <label>Giới tính:</label>
-            <input type="radio" id="boy" name="sex" value="Nam">
-            <label for="boy">Nam</label>
-            <input type="radio" id="girl" name="sex" value="Nữ">
+            <!-- Form -->
+            <form id="bookingForm">
+                <!-- Tên -->
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" placeholder="Họ và tên" required><br>
 
-            <label for="girl">Nữ</label><br>
-            <!-- Kiểm tra số điện thoại -->
-            <input type="tel" id="phone_number" placeholder="Số điện thoại" pattern="\d{10}" required><br>
-            <!-- Dùng kiểu nhập date -->
-            <input type="date" id="date_of_birth" required><br>
+                <!-- Giới tính -->
+                <label>Giới tính:</label>
+                <label for="male">Nam</label>
+                <input type="radio" id="male" name="sex" value="Nam" required>
+
+                <label for="female">Nữ</label><br>
+                <input type="radio" id="female" name="sex" value="Nữ" required>
+                <br>
+
+                <!-- Số điện thoại -->
+                <label for="phone_number">Số điện thoại:</label>
+                <input type="tel" id="phone_number" name="phone" placeholder="Số điện thoại" pattern="\d{10}" required>
+                <br>
+
+                <!-- Ngày sinh -->
+                <label for="dob">Ngày sinh:</label>
+                <input type="date" id="dob" name="dob" required>
+                <br>
+
+                <!-- Chọn bác sĩ -->
+                <label for="doctor">Chọn Bác Sĩ Muốn Khám:</label>
+                <select id="doctor" name="doctor" required>
+                    <option value="PhamXuanTam">Phạm Xuân Tâm</option>
+                    <option value="MaiTruongSon">Mai Trường Sơn</option>
+                    <option value="DoanXuanAnh">Đoàn Xuân Anh</option>
+                    <option value="NguyenTuanKiet">Nguyễn Tuấn Kiệt</option>
+                </select>
+                <br>
+
+                <!-- Chọn giờ khám -->
+                <label for="time">Chọn Thời Gian Muốn Khám:</label>
+                <select id="time" name="time" required>
+                    <option value="8:00">8:00 AM</option>
+                    <option value="9:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                </select>
+                <br>
+
+                <!-- Ngày khám -->
+                <label for="appointment_date">Chọn Lịch Muốn Khám:</label>
+                <input type="date" id="appointment_date" name="appointment_date" required>
+                <br>
+
+                <!-- Submit button -->
+                <button type="submit">Xác nhận lịch khám</button>
+                <br>
+            </form>
 
 
-
-            <!-- Danh sách thả xuống -->
-            <!-- chọn Bác sĩ khám -->
-            <label for="dropdown">Chọn Bác Sĩ Muốn Khám:</label>
-            <select id="dropdown">
-                <option>Phạm Xuân Tâm</option>
-                <option>Mai Trường Sơn</option>
-                <option>Đoàn Xuân Anh</option>
-                <option>Nguyễn Tuấn Kiệt</option>
-            </select>
-            <br>
-
-            <!-- lịch khám bệnh -->
-            <!-- giờ -->
-            <label for="time_book">Chọn Thời Gian Muốn Khám</label>
-            <select id="time_book">
-                <option>8:00 AM</option>
-                <option>9:00 AM</option>
-                <option>10:00 AM</option>
-                <option>11:00 AM</option>
-                <option>12:00 PM</option>
-                <option>1:00 PM</option>
-                <option>2:00 PM</option>
-                <option>3:00 PM</option>
-                <option>4:00 PM</option>
-                <option>5:00 PM</option>
-
-            </select>
-            <br>
-
-            <!-- ngày khám -->
-            <label for="date_book">Chọn Lịch Muốn Khám</label>
-            <br>
-            <!-- Dùng kiểu nhập date -->
-            <input type="date" id="date_book" required><br>
-
-            <br>
-            <button onclick="saveData()">Xác nhận lịch khám</button>
-            <div class="selection" id="selection"></div>
-        </div>
-    </div>
-
-    <div id="result" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; display: none;">
-        <h3>Kết quả:</h3>
-        <p id="displayData"></p>
-    </div>
-
-    <div id="job">
-        <h2>Lịch Làm Việc</h2>
-        <table id="appointmentTable" border="1" style="width: 100%; border-collapse: collapse;">
-            <thead>
-                <tr>
-
-                    <th>Họ và Tên</th>
-                    <th>Giới Tính</th>
-                    <th>Số Điện Thoại</th>
-                    <th>Ngày Sinh</th>
-                    <th>Bác Sĩ</th>
-                    <th>Thời Gian Khám</th>
-                    <th>Ngày Khám</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dữ liệu sẽ được thêm vào đây -->
-            </tbody>
-        </table>
+        </section>
     </div>
 
 
-    <div id="contact">
-        <h1>Holine</h1>
-        <p>0904192xxx</p>
-    </div>
+    <!-- Bảng hiển thị lịch khám đã đăng ký thành công -->
+    <table class="appointmentTable">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ và Tên</th>
+                <th>Bác Sĩ</th>
+                <th>Ngày Khám</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentTableBody">
+            <!-- Dữ liệu sẽ được thêm vào đây -->
+        </tbody>
+    </table>
 
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

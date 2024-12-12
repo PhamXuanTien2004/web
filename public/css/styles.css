@@ -89,38 +89,61 @@ button:hover {
 }
 
 /* Kiểu cho bảng */
-#appointmentTable {
+.appointmentTable {
     width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
     border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
-    table-layout: fixed; /* Đảm bảo các cột có độ rộng đều */
+    table-layout: auto; /* Đảm bảo các cột có độ rộng phù hợp nội dung */
 }
 
 /* Đặt kiểu cho các cột trong bảng */
-#appointmentTable th, #appointmentTable td {
+.appointmentTable th, .appointmentTable td {
     padding: 12px; /* Thêm khoảng cách cho các ô */
     text-align: center; /* Căn giữa nội dung trong các ô */
     border: 1px solid #ddd; /* Đặt đường viền mờ cho bảng */
 }
 
 /* Kiểu cho tiêu đề của bảng */
-#appointmentTable th {
-    background-color: #4CAF50; /* Màu nền cho các tiêu đề cột */
+.appointmentTable th {
+    background-color: #0073e6; /* Màu nền cho các tiêu đề cột */
     color: white; /* Màu chữ tiêu đề */
     font-weight: bold; /* Đậm chữ tiêu đề */
+    text-transform: uppercase; /* Viết hoa tiêu đề */
 }
 
 /* Kiểu cho hàng trong bảng khi di chuột qua */
-#appointmentTable tr:hover {
-    background-color: #f1f1f1; /* Màu nền khi di chuột vào hàng */
+.appointmentTable tr:hover {
+    background-color: #c37c7c; /* Màu nền khi di chuột vào hàng */
 }
 
 /* Kiểu cho các ô dữ liệu */
-#appointmentTable td {
+.appointmentTable td {
     font-size: 14px; /* Kích thước chữ trong các ô */
-    color: #333; /* Màu chữ trong các ô */
+    color: #f6f3f3; /* Màu chữ trong các ô */
+    word-wrap: break-word; /* Ngắt dòng nếu nội dung quá dài */
 }
 
-/* Căn chỉnh các cột đặc biệt, ví dụ như cột Ngày Sinh và Ngày Khám */
-#appointmentTable td:nth-child(5), #appointmentTable td:nth-child(8) {
+/* Căn chỉnh các cột đặc biệt */
+.appointmentTable td:nth-child(5), .appointmentTable td:nth-child(8) {
     text-align: left;
+}
+
+/* Định dạng nút Xóa và Sửa */
+.appointmentTable .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Khoảng cách giữa các nút */
+}
+
+.appointmentTable .actions button {
+    padding: 5px 10px; /* Kích thước nhỏ hơn */
+    font-size: 12px; /* Chữ nhỏ hơn */
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.appointmentTable .actions button:hover {
+    background-color: #005bb5;
 }

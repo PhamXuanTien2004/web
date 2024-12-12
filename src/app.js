@@ -1,60 +1,39 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
-const connectDB = require("../db.js"); // Import connectDB từ file db.js
-const appointmentsRouter = require("./router/appointments.js");
-const Appointment = require("./models/appointment.js"); // Import model Appointment
+const express = require('express');
+const path = require('path');
 const app = express();
-const PORT = 3000;
+const connectDB = require('../config/db');
 
-// Kết nối MongoDB qua db.js
+// Kết nối MongoDB
 connectDB();
 
-// Cấu hình thư mục public để phục vụ file tĩnh
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware để parse JSON
+// Middleware
 app.use(express.json());
+app.use(express.static('public')); // Đảm bảo rằng thư mục public chứa các tệp tĩnh như CSS, JS
 
-// Routes
-app.use("/api/appointments", appointmentsRouter);
+// Routes cho API
+app.use('/api/v1/appointments', require('../src/routers/bookingRouter')); // API xử lý lịch khám
 
-// Home route (trả về trang HTML)
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html")); // Chỉ định đường dẫn tệp HTML
+// Khai báo thư mục tĩnh, nếu chưa có
+app.use(express.static(path.join(__dirname, '../public'))); // Đảm bảo thư mục public chứa các tệp tĩnh
+
+// Import các routes
+const initWebRoute = require('./routers/homeRouters');
+initWebRoute(app); // Khởi tạo routes cho trang chủ
+
+// Sử dụng các router cho các chức năng booking và delete
+const bookingRouter = require('../src/routers/bookingRouter');
+const deleteRouter = require('../src/routers/deleteRouter');
+
+// Đảm bảo sử dụng đúng các tuyến đường
+app.use('/api/v1/appointments', bookingRouter);  // Xử lý API cho lịch khám
+app.use('/api/v1/appointments', deleteRouter);  // API cho xóa lịch khám (nếu cần)
+
+// Khai báo route chính cho trang chủ
+app.use('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));  // Đảm bảo file index.html được trả về từ thư mục public
 });
 
-app.use('/js', express.static(path.join(__dirname, 'public/js'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.js')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        }
-    }
-}));
-
-
-// Route để nhận dữ liệu và lưu vào MongoDB
-app.post("/api/appointments", async (req, res) => {
-  try {
-    const { name, sex, phone_number, date_of_birth, doctor, time, date } = req.body;
-    const newAppointment = new Appointment({
-      name,
-      sex,
-      phone_number,
-      date_of_birth,
-      doctor,
-      time,
-      date,
-    });
-
-    await newAppointment.save();
-    res.status(201).send("Appointment saved successfully!");
-  } catch (err) {
-    res.status(500).send("Error saving appointment: " + err.message);
-  }
-});
-
-// Start server
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server đang chạy tại http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
