@@ -20,6 +20,9 @@ const createAppointment = async (req, res) => {
         if (isNaN(formattedDateOfBirth) || isNaN(formattedAppointmentDate)) {
             return res.status(400).json({ error: "Ngày sinh hoặc ngày khám không hợp lệ." });
         }
+        else if (formattedDateOfBirth >= formattedAppointmentDate) {
+            return res.status(400).json({ error: "Ngày sinh phải trước ngày khám." });
+        }
 
         // Tạo một đối tượng Booking mới từ dữ liệu người dùng
         const newBooking = new Booking({
@@ -46,14 +49,12 @@ const createAppointment = async (req, res) => {
 // Lấy tất cả lịch khám
 const getAppointments = async (req, res) => {
     try {
-        // Lấy tất cả các lịch khám từ MongoDB
-        const appointments = await Booking.find();
-
-        // Trả về kết quả dưới dạng JSON
+        const appointments = await Book.find();
+        console.log('Appointments:', appointments);
         res.status(200).json(appointments);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Đã có lỗi xảy ra khi lấy danh sách lịch khám." });
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ error: "Đã xảy ra lỗi khi tải danh sách lịch khám." });
     }
 };
 
@@ -61,7 +62,7 @@ const getAppointments = async (req, res) => {
 const deleteById = async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await Booking.findByIdAndDelete(id);
+        const result = await Book.findByIdAndDelete(id);
 
         if (!result) {
             return res.status(404).json({ message: 'Không tìm thấy lịch cần xóa.' });
@@ -75,14 +76,14 @@ const deleteById = async (req, res) => {
 };
 
 // Trang chủ
-let getHomePage = (req, res) => {
+const getHomePage = (req, res) => {
     // Xu lý logic
     return res.sendFile(path.join(__dirname, '../../public/index.html'));
 };
 
 module.exports = {
     createAppointment,
-    getAppointments,
-    deleteById,
+    // getAppointments,
+    // deleteById,
     getHomePage
 };

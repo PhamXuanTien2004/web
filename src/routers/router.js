@@ -1,18 +1,17 @@
 const express = require('express');
-const { createAppointment, getAppointments, deleteAppointment } = require('../controllers/bookingController');
-const homeController = require('../controllers/homeController');
+const { getHomePage, createAppointment, getAppointments, deleteById } = require('../controllers/controller');
 const router = express.Router();
 
 // Route trang chủ
-router.get('/', homeController.getHomePage);
+router.get('/', getHomePage);
 
-// Route tạo mới lịch khám
-router.post('/appointment', createAppointment);
+// // Route tạo mới lịch khám
+router.post('/appointments', createAppointment);
 
-// Route lấy danh sách lịch khám
-router.get('/appointments', getAppointments);
+// // // Route lấy danh sách lịch khám
+// router.get('/appointments', getAppointments);
 
-// Route xóa lịch khám
-router.delete('/appointment/:id', deleteAppointment);
+// // Route xóa lịch khám
+// router.delete('/appointments/:id', deleteById);
 
 module.exports = router;
