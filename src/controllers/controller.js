@@ -1,28 +1,16 @@
 const Booking = require('../models/Booking');
+
 const path = require('path');
+
 
 // Tạo mới lịch khám
 const createAppointment = async (req, res) => {
     try {
-        // Lấy dữ liệu từ body của request
         const { name, sex, phone_number, date_of_birth, doctor, time, appointment_date } = req.body;
-
-        // Kiểm tra xem tất cả các trường có được cung cấp đầy đủ hay không
-        if (!name || !sex || !phone_number || !date_of_birth || !doctor || !time || !appointment_date) {
-            return res.status(400).json({ error: "Vui lòng cung cấp đầy đủ thông tin." });
-        }
 
         // Chuyển đổi các trường ngày tháng thành đối tượng Date
         const formattedDateOfBirth = new Date(date_of_birth);
         const formattedAppointmentDate = new Date(appointment_date);
-
-        // Kiểm tra nếu các ngày không hợp lệ
-        if (isNaN(formattedDateOfBirth) || isNaN(formattedAppointmentDate)) {
-            return res.status(400).json({ error: "Ngày sinh hoặc ngày khám không hợp lệ." });
-        }
-        else if (formattedDateOfBirth >= formattedAppointmentDate) {
-            return res.status(400).json({ error: "Ngày sinh phải trước ngày khám." });
-        }
 
         // Tạo một đối tượng Booking mới từ dữ liệu người dùng
         const newBooking = new Booking({
@@ -49,7 +37,7 @@ const createAppointment = async (req, res) => {
 // Lấy tất cả lịch khám
 const getAppointments = async (req, res) => {
     try {
-        const appointments = await Book.find();
+        const appointments = await Booking.find();
         console.log('Appointments:', appointments);
         res.status(200).json(appointments);
     } catch (error) {
@@ -75,6 +63,43 @@ const deleteById = async (req, res) => {
     }
 };
 
+// Sửa thông tin theo ID
+const updateByID = async (req, res) => {
+    try {
+        const id = req.params.id;
+        let data = await Booking.findById(id);
+        if (!data) {
+            return res.status(404).json({ message: 'Không tìm thấy lịch cần sửa.' });
+        }
+        data.name = req.body.name;
+        // Tìm lịch khám theo ID và cập nhật thông tin
+        const booking = await Booking.findByIdAndUpdate(id, data, { new: true });
+
+        // sửa thông tin nếu muốn
+        res.status(200).json(booking);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Đã xảy ra l��i khi sửa dữ liệu.' });
+    }
+};
+
+
+// Lấy thông tin theo ID
+const getById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        let data = await Booking.findById(id);
+        if (!data) {
+            return res.status(404).json({ message: 'Không tìm thấy lịch cần sửa.' });
+        }
+        // sửa thông tin nếu muốn
+        res.status(200).json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Đã xảy ra l��i khi sửa dữ liệu.' });
+    }
+};
+
 // Trang chủ
 const getHomePage = (req, res) => {
     // Xu lý logic
@@ -83,7 +108,9 @@ const getHomePage = (req, res) => {
 
 module.exports = {
     createAppointment,
-    // getAppointments,
-    // deleteById,
-    getHomePage
+    getAppointments,
+    deleteById,
+    getHomePage,
+    updateByID,
+    getById
 };

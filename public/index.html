@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PXT Hospital</title>
     <link rel="stylesheet" href="css/styles.css">
-
-
 </head>
 
 <body>
@@ -42,7 +40,7 @@
                 <input type="text" id="name" name="name" placeholder="Họ và tên" required><br>
 
                 <!-- Giới tính -->
-                <label>Giới tính:</label>
+                <label>Giới tính:</label> <br>
                 <label for="male">Nam</label>
                 <input type="radio" id="male" name="sex" value="Nam" required>
 
@@ -116,6 +114,22 @@
             <!-- Dữ liệu sẽ được thêm vào đây -->
         </tbody>
     </table>
+
+    <!-- Modal -->
+    <div id="appointment-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <thead>
+                <tr>
+
+                </tr>
+            </thead>
+            <div id="appointment-details"></div>
+            <button class="submit" id="submit">Lưu</button>
+
+        </div>
+    </div>
+
 
     <script src="/js/script.js"></script>
 </body>
